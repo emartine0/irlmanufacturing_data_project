@@ -35,7 +35,7 @@ BEGIN
 		BULK INSERT bronze.machine1_data
 		FROM 'C:\Users\emartine\Documents\DSProjects\Manufacturing_irl\machine1_data.csv'
 		WITH (
-			FIRSTROW = 3,
+			FIRSTROW = 2,
 			FIELDTERMINATOR = ',',
 			TABLOCK
 		);
@@ -47,14 +47,14 @@ BEGIN
 		PRINT 'Loading Machine 2 Table';
 		PRINT '------------------------------------------------';
 
-    	SET @start_time = GETDATE();
+		SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: bronze.machine2_data';
 		TRUNCATE TABLE bronze.machine2_data;
 		PRINT '>> Inserting Data Into: bronze.machine2_data';
 		BULK INSERT bronze.machine2_data
-		FROM 'C:\Users\emartine\Documents\DSProjects\Manufacturing_irl\machine2_data.csv' 
+		FROM 'C:\Users\emartine\Documents\DSProjects\Manufacturing_irl\machine2_data.csv'
 		WITH (
-			FIRSTROW = 3,
+			FIRSTROW = 2,
 			FIELDTERMINATOR = ',',
 			TABLOCK
 		);
@@ -65,9 +65,9 @@ BEGIN
 	BEGIN CATCH
 		PRINT '=========================================='
 		PRINT 'ERROR OCCURED DURING LOADING BRONZE LAYER'
-		PRINT 'Error Message' + ERROR_MESSAGE();
-		PRINT 'Error Message' + CAST (ERROR_NUMBER() AS NVARCHAR);
-		PRINT 'Error Message' + CAST (ERROR_STATE() AS NVARCHAR);
+		PRINT 'Error Message: ' + ERROR_MESSAGE();
+		PRINT 'Error Message: ' + CAST (ERROR_NUMBER() AS NVARCHAR);
+		PRINT 'Error Message: ' + CAST (ERROR_STATE() AS NVARCHAR);
 		PRINT '=========================================='
 	END CATCH
 END
