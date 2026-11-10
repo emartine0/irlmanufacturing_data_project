@@ -35,7 +35,7 @@ BEGIN
 		BULK INSERT bronze.machine1_data
 		FROM 'C:\Users\emartine\Documents\DSProjects\Manufacturing_irl\machine1_data.csv'
 		WITH (
-			FIRSTROW = 2,
+			FIRSTROW = 3,
 			FIELDTERMINATOR = ',',
 			TABLOCK
 		);
@@ -47,14 +47,14 @@ BEGIN
 		PRINT 'Loading Machine 2 Table';
 		PRINT '------------------------------------------------';
 
-    SET @start_time = GETDATE();
+    	SET @start_time = GETDATE();
 		PRINT '>> Truncating Table: bronze.machine2_data';
 		TRUNCATE TABLE bronze.machine2_data;
 		PRINT '>> Inserting Data Into: bronze.machine2_data';
 		BULK INSERT bronze.machine2_data
-		FROM 'C:\Users\emartine\Documents\DSProjects\Manufacturing_irl\machine2_data.csv'
+		FROM 'C:\Users\emartine\Documents\DSProjects\Manufacturing_irl\machine2_data.csv' 
 		WITH (
-			FIRSTROW = 2,
+			FIRSTROW = 3,
 			FIELDTERMINATOR = ',',
 			TABLOCK
 		);
