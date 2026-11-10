@@ -14,7 +14,7 @@ IF OBJECT_ID('bronze.machine1_data', 'U') IS NOT NULL
 GO
 
 CREATE TABLE bronze.machine1_data (
-  period        DATETIME,
+  period        NVARCHAR(25),
   good_pieces	  INT,
   bad_pieces	  INT,
   target	      INT,
@@ -34,7 +34,7 @@ IF OBJECT_ID('bronze.machine2_data', 'U') IS NOT NULL
 GO
 
 CREATE TABLE bronze.machine2_data (
-  period        DATETIME,
+  period        NVARCHAR(25),
   good_pieces	  INT,
   bad_pieces	  INT,
   target	      INT,
