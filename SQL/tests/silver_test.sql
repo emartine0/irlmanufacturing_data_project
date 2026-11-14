@@ -127,6 +127,32 @@ WHERE (CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) /
 	END) NOT BETWEEN performance_pct - 1 AND performance_pct + 1
 
 /*
-	ISSUE 3: There are 350 rows in which the difference between the calculation an the actual row value seems artificial.
+	ISSUE 2.1: There are 350 rows in which the difference between the calculation an the actual row value seems artificial.
 	ACTION: Check the source table in order to find more information about this issue.
+*/
+
+SELECT
+	period_dt,
+	good_pcs,
+	bad_pcs,
+	(CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 6.20) AS calc_target,
+	running_sec,
+	scheduled_sec,
+	idle_sec,
+	breakdown_sec,
+	CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) / (CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 6.20)) * 100,2)
+	ELSE 0 
+	END AS calc_performance,
+	performance_pct
+FROM silver.machine1_data
+WHERE (CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) / (CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 6.20)) * 100,2)
+	ELSE 0 
+	END) NOT BETWEEN performance_pct - 1 AND performance_pct + 1
+
+/*
+	ISSUE 2.2: The fundamental problem with these differences is that there are inconsistencies in data. 
+	Particularly, (1) there are produced pieces witout running-machine time and (2) there are nonsense performance
+	values like 295120%.
+	ACTION: 
+	
 */
