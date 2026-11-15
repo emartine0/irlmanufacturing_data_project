@@ -51,19 +51,186 @@ BEGIN
 			oee_pct			
 		)
 		SELECT
-			CONVERT(DATETIME, period + ':00', 103) AS period,
-			good_pieces,
-			bad_pieces,
-			target,
-			running,
-			scheduled,
-			idle,
-			breakdown,
-			availability,
-			performance,
-			quality,
-			oee	
-		FROM bronze.machine1_data
+			period_dt,
+			good_pcs,
+			bad_pcs,
+			assign_target,
+			assign_running,
+			assign_scheduled,
+			idle_sec,
+			breakdown_sec,
+			availability_pct,
+			assign_performance,
+			quality_pct,
+			assign_oee
+		FROM (
+			SELECT
+				period_dt,
+				good_pcs,
+				bad_pcs,
+				assign_target,
+				target_pcs,
+				assign_running,
+				running_sec,
+				assign_scheduled,
+				scheduled_sec,
+				idle_sec,
+				breakdown_sec,
+				availability_pct,
+				assign_performance,
+				calc_performance,
+				performance_pct,
+				quality_pct,
+				CASE
+					WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+					THEN (availability_pct * assign_performance * quality_pct) / 10000
+					ELSE oee_pct
+				END AS assign_oee,
+				oee_pct
+			FROM (
+			SELECT
+				period_dt,
+				good_pcs,
+				bad_pcs,
+				assign_target,
+				target_pcs,
+				assign_running,
+				running_sec,
+				assign_scheduled,
+				scheduled_sec,
+				idle_sec,
+				breakdown_sec,
+				availability_pct,
+				CASE
+					WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+					THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
+					ELSE calc_performance
+				END AS assign_performance,
+				calc_performance,
+				performance_pct,
+				quality_pct,
+				oee_pct
+			FROM (
+				SELECT
+					period_dt,
+					good_pcs,
+					bad_pcs,
+					CASE 
+						WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+						THEN good_pcs + bad_pcs
+						ELSE target_pcs
+					END AS assign_target,
+					target_pcs,
+					assign_running,
+					running_sec,
+					assign_scheduled,
+					scheduled_sec,
+					idle_sec,
+					breakdown_sec,
+					availability_pct,
+					calc_performance,
+					performance_pct,
+					quality_pct,
+					oee_pct
+				FROM (
+					SELECT
+						period_dt,
+						good_pcs,
+						bad_pcs,
+						target_pcs,
+						assign_running,
+						running_sec,
+						CASE 
+							WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+							THEN scheduled_sec - assign_running
+							ELSE scheduled_sec
+						END AS assign_scheduled,
+						scheduled_sec,
+						idle_sec,
+						breakdown_sec,
+						availability_pct,
+						calc_performance,
+						performance_pct,
+						quality_pct,
+						oee_pct
+					FROM (
+						SELECT
+							period_dt,
+							good_pcs,
+							bad_pcs,
+							target_pcs,
+							CASE 
+								WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+								THEN CASE
+											WHEN (good_pcs + bad_pcs) * 6.2 > 3600 
+											THEN 3600
+											ELSE (good_pcs + bad_pcs) * 6.2
+										END
+								ELSE running_sec
+							END AS assign_running,
+							running_sec,
+							scheduled_sec,
+							idle_sec,
+							breakdown_sec,
+							availability_pct,
+							calc_performance,
+							performance_pct,
+							quality_pct,
+							oee_pct
+						FROM (
+							SELECT
+								period_dt,
+								good_pcs,
+								bad_pcs,
+								(CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 6.20) AS target_pcs,
+								running_sec,
+								scheduled_sec,
+								idle_sec,
+								breakdown_sec,
+								availability_pct,
+								CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) / (CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 6.20)) * 100,2)
+								ELSE 0 
+								END AS calc_performance,
+								performance_pct,
+								quality_pct,
+								oee_pct
+							FROM (
+								SELECT
+									period_dt,
+									good_pcs,
+									bad_pcs,
+									target_pcs,
+									running_sec,
+									scheduled_sec,
+									idle_sec,
+									breakdown_sec,
+									availability_pct,
+									performance_pct,
+									quality_pct,
+									oee_pct			
+								FROM (
+									SELECT
+										CONVERT(DATETIME, period + ':00', 103) AS period_dt,
+										good_pieces AS good_pcs,
+										bad_pieces AS bad_pcs,
+										target AS target_pcs,
+										running AS running_sec,
+										scheduled AS scheduled_sec,
+										idle AS idle_sec,
+										breakdown AS breakdown_sec,
+										availability AS availability_pct,
+										performance AS performance_pct,
+										quality AS quality_pct,
+										oee	AS oee_pct
+									FROM bronze.machine1_data
+									)t
+								)t
+							)t
+						)t
+					)t
+				)t
+			)t
+		)t
 		SET @end_time = GETDATE();
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
