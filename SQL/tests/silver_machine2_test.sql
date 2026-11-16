@@ -336,7 +336,7 @@ SELECT
 	bad_pcs,
 	target_pcs,
 	CASE 
-		WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+		WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 		THEN CASE
 				 WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
 				 THEN 3600
@@ -396,7 +396,7 @@ SELECT
 		assign_running,
 		running_sec,
 		CASE 
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 			THEN 3600 - assign_running - idle_sec - breakdown_sec
 			ELSE scheduled_sec
 		END AS assign_scheduled,
@@ -415,7 +415,7 @@ FROM (
 		bad_pcs,
 		target_pcs,
 		CASE 
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 			THEN CASE
 					 WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
 					 THEN 3600
@@ -465,7 +465,7 @@ SELECT
 	good_pcs,
 	bad_pcs,
 	CASE 
-		WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+		WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 		THEN good_pcs + bad_pcs
 		ELSE target_pcs
 	END AS assign_target,
@@ -490,7 +490,7 @@ FROM (
 		assign_running,
 		running_sec,
 		CASE 
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 			THEN 3600 - assign_running - idle_sec - breakdown_sec
 			ELSE scheduled_sec
 		END AS assign_scheduled,
@@ -509,7 +509,7 @@ FROM (
 			bad_pcs,
 			target_pcs,
 			CASE 
-				WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+				WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 				THEN CASE
 						 WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
 						 THEN 3600
@@ -569,7 +569,7 @@ SELECT
 	breakdown_sec,
 	availability_pct,
 	CASE
-		WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+		WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 		THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
 		ELSE calc_performance
 	END AS assign_performance,
@@ -583,7 +583,7 @@ FROM (
 		good_pcs,
 		bad_pcs,
 		CASE 
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 			THEN good_pcs + bad_pcs
 			ELSE target_pcs
 		END AS assign_target,
@@ -608,7 +608,7 @@ FROM (
 			assign_running,
 			running_sec,
 			CASE 
-				WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+				WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 				THEN 3600 - assign_running - idle_sec - breakdown_sec
 				ELSE scheduled_sec
 			END AS assign_scheduled,
@@ -627,7 +627,7 @@ FROM (
 				bad_pcs,
 				target_pcs,
 				CASE 
-					WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+					WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 					THEN CASE
 							 WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
 							 THEN 3600
@@ -693,7 +693,7 @@ SELECT
 	performance_pct,
 	quality_pct,
 	CASE
-		WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+		WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 		THEN (availability_pct * assign_performance * quality_pct) / 10000
 		ELSE oee_pct
 	END AS assign_oee,
@@ -713,7 +713,7 @@ SELECT
 	breakdown_sec,
 	availability_pct,
 	CASE
-		WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+		WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 		THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
 		ELSE calc_performance
 	END AS assign_performance,
@@ -727,7 +727,7 @@ FROM (
 		good_pcs,
 		bad_pcs,
 		CASE 
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 			THEN good_pcs + bad_pcs
 			ELSE target_pcs
 		END AS assign_target,
@@ -752,7 +752,7 @@ FROM (
 			assign_running,
 			running_sec,
 			CASE 
-				WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+				WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1)
 				THEN 3600 - assign_running - idle_sec - breakdown_sec
 				ELSE scheduled_sec
 			END AS assign_scheduled,
@@ -771,7 +771,7 @@ FROM (
 				bad_pcs,
 				target_pcs,
 				CASE 
-					WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+					WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 					THEN CASE
 								WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
 								THEN 3600
@@ -852,7 +852,7 @@ FROM (
 		performance_pct,
 		quality_pct,
 		CASE
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 			THEN (availability_pct * assign_performance * quality_pct) / 10000
 			ELSE oee_pct
 		END AS assign_oee,
@@ -872,7 +872,7 @@ FROM (
 		breakdown_sec,
 		availability_pct,
 		CASE
-			WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+			WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 			THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
 			ELSE calc_performance
 		END AS assign_performance,
@@ -886,7 +886,7 @@ FROM (
 			good_pcs,
 			bad_pcs,
 			CASE 
-				WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+				WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 				THEN good_pcs + bad_pcs
 				ELSE target_pcs
 			END AS assign_target,
@@ -911,7 +911,7 @@ FROM (
 				assign_running,
 				running_sec,
 				CASE 
-					WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+					WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 					THEN 3600 - assign_running - idle_sec - breakdown_sec
 					ELSE scheduled_sec
 				END AS assign_scheduled,
@@ -930,7 +930,7 @@ FROM (
 					bad_pcs,
 					target_pcs,
 					CASE 
-						WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
+						WHEN (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6) AND (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
 						THEN CASE
 									WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
 									THEN 3600
@@ -972,4 +972,474 @@ FROM (
 	)t
 )t
 
--- 2024-2
+------------------------------------------------------------
+------------------- FINAL CODE 2024-1 ----------------------
+------------------------------------------------------------
+
+SELECT
+	period_dt,
+	good_pcs,
+	bad_pcs,
+	assign_target,
+	assign_running,
+	assign_scheduled,
+	idle_sec,
+	breakdown_sec,
+	availability_pct,
+	assign_performance,
+	quality_pct,
+	assign_oee
+FROM (
+	SELECT
+		period_dt,
+		good_pcs,
+		bad_pcs,
+		assign_target,
+		target_pcs,
+		assign_running,
+		running_sec,
+		assign_scheduled,
+		scheduled_sec,
+		idle_sec,
+		breakdown_sec,
+		availability_pct,
+		assign_performance,
+		calc_performance,
+		performance_pct,
+		quality_pct,
+		CASE
+			WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+			THEN (availability_pct * assign_performance * quality_pct) / 10000
+			ELSE oee_pct
+		END AS assign_oee,
+		oee_pct
+	FROM (
+	SELECT
+		period_dt,
+		good_pcs,
+		bad_pcs,
+		assign_target,
+		target_pcs,
+		assign_running,
+		running_sec,
+		assign_scheduled,
+		scheduled_sec,
+		idle_sec,
+		breakdown_sec,
+		availability_pct,
+		CASE
+			WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+			THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
+			ELSE calc_performance
+		END AS assign_performance,
+		calc_performance,
+		performance_pct,
+		quality_pct,
+		oee_pct
+	FROM (
+		SELECT
+			period_dt,
+			good_pcs,
+			bad_pcs,
+			CASE 
+				WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+				THEN good_pcs + bad_pcs
+				ELSE target_pcs
+			END AS assign_target,
+			target_pcs,
+			assign_running,
+			running_sec,
+			assign_scheduled,
+			scheduled_sec,
+			idle_sec,
+			breakdown_sec,
+			availability_pct,
+			calc_performance,
+			performance_pct,
+			quality_pct,
+			oee_pct
+		FROM (
+			SELECT
+				period_dt,
+				good_pcs,
+				bad_pcs,
+				target_pcs,
+				assign_running,
+				running_sec,
+				CASE 
+					WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+					THEN 3600 - assign_running - idle_sec - breakdown_sec
+					ELSE scheduled_sec
+				END AS assign_scheduled,
+				scheduled_sec,
+				idle_sec,
+				breakdown_sec,
+				availability_pct,
+				calc_performance,
+				performance_pct,
+				quality_pct,
+				oee_pct
+			FROM (
+				SELECT
+					period_dt,
+					good_pcs,
+					bad_pcs,
+					target_pcs,
+					CASE 
+						WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+						THEN CASE
+									WHEN (good_pcs + bad_pcs) * 5.98 > 3600 
+									THEN 3600
+									ELSE (good_pcs + bad_pcs) * 5.98
+								END
+						ELSE running_sec
+					END AS assign_running,
+					running_sec,
+					scheduled_sec,
+					idle_sec,
+					breakdown_sec,
+					availability_pct,
+					calc_performance,
+					performance_pct,
+					quality_pct,
+					oee_pct
+				FROM (
+					SELECT
+						period_dt,
+						good_pcs,
+						bad_pcs,
+						(CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 5.98) AS target_pcs,
+						running_sec,
+						scheduled_sec,
+						idle_sec,
+						breakdown_sec,
+						availability_pct,
+						CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) / (CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 5.98)) * 100,2)
+						ELSE 0 
+						END AS calc_performance,
+						performance_pct,
+						quality_pct,
+						oee_pct
+					FROM silver.machine2_data
+					WHERE (YEAR(period_dt) = 2024 AND MONTH(period_dt) BETWEEN 1 AND 6)
+					)t
+				)t
+			)t
+		)t
+	)t
+)t
+
+------------------------------------------------------------
+------------------- FINAL CODE 2024-2 ----------------------
+------------------------------------------------------------
+
+SELECT
+	period_dt,
+	good_pcs,
+	bad_pcs,
+	assign_target,
+	assign_running,
+	assign_scheduled,
+	idle_sec,
+	breakdown_sec,
+	availability_pct,
+	assign_performance,
+	quality_pct,
+	assign_oee
+FROM (
+	SELECT
+		period_dt,
+		good_pcs,
+		bad_pcs,
+		assign_target,
+		target_pcs,
+		assign_running,
+		running_sec,
+		assign_scheduled,
+		scheduled_sec,
+		idle_sec,
+		breakdown_sec,
+		availability_pct,
+		assign_performance,
+		calc_performance,
+		performance_pct,
+		quality_pct,
+		CASE
+			WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+			THEN (availability_pct * assign_performance * quality_pct) / 10000
+			ELSE oee_pct
+		END AS assign_oee,
+		oee_pct
+	FROM (
+	SELECT
+		period_dt,
+		good_pcs,
+		bad_pcs,
+		assign_target,
+		target_pcs,
+		assign_running,
+		running_sec,
+		assign_scheduled,
+		scheduled_sec,
+		idle_sec,
+		breakdown_sec,
+		availability_pct,
+		CASE
+			WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+			THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
+			ELSE calc_performance
+		END AS assign_performance,
+		calc_performance,
+		performance_pct,
+		quality_pct,
+		oee_pct
+	FROM (
+		SELECT
+			period_dt,
+			good_pcs,
+			bad_pcs,
+			CASE 
+				WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+				THEN good_pcs + bad_pcs
+				ELSE target_pcs
+			END AS assign_target,
+			target_pcs,
+			assign_running,
+			running_sec,
+			assign_scheduled,
+			scheduled_sec,
+			idle_sec,
+			breakdown_sec,
+			availability_pct,
+			calc_performance,
+			performance_pct,
+			quality_pct,
+			oee_pct
+		FROM (
+			SELECT
+				period_dt,
+				good_pcs,
+				bad_pcs,
+				target_pcs,
+				assign_running,
+				running_sec,
+				CASE 
+					WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+					THEN 3600 - assign_running - idle_sec - breakdown_sec
+					ELSE scheduled_sec
+				END AS assign_scheduled,
+				scheduled_sec,
+				idle_sec,
+				breakdown_sec,
+				availability_pct,
+				calc_performance,
+				performance_pct,
+				quality_pct,
+				oee_pct
+			FROM (
+				SELECT
+					period_dt,
+					good_pcs,
+					bad_pcs,
+					target_pcs,
+					CASE 
+						WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+						THEN CASE
+									WHEN (good_pcs + bad_pcs) * 8.28 > 3600 
+									THEN 3600
+									ELSE (good_pcs + bad_pcs) * 8.28
+								END
+						ELSE running_sec
+					END AS assign_running,
+					running_sec,
+					scheduled_sec,
+					idle_sec,
+					breakdown_sec,
+					availability_pct,
+					calc_performance,
+					performance_pct,
+					quality_pct,
+					oee_pct
+				FROM (
+					SELECT
+						period_dt,
+						good_pcs,
+						bad_pcs,
+						(CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 8.28) AS target_pcs,
+						running_sec,
+						scheduled_sec,
+						idle_sec,
+						breakdown_sec,
+						availability_pct,
+						CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) / (CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 8.28)) * 100,2)
+						ELSE 0 
+						END AS calc_performance,
+						performance_pct,
+						quality_pct,
+						oee_pct
+					FROM silver.machine2_data
+					WHERE (YEAR(period_dt) = 2024 AND MONTH(period_dt) NOT BETWEEN 1 AND 6)
+					)t
+				)t
+			)t
+		)t
+	)t
+)t
+
+
+------------------------------------------------------------
+------------------- FINAL CODE 2025-26 ----------------------
+------------------------------------------------------------
+
+SELECT
+	period_dt,
+	good_pcs,
+	bad_pcs,
+	assign_target,
+	assign_running,
+	assign_scheduled,
+	idle_sec,
+	breakdown_sec,
+	availability_pct,
+	assign_performance,
+	quality_pct,
+	assign_oee
+FROM (
+	SELECT
+		period_dt,
+		good_pcs,
+		bad_pcs,
+		assign_target,
+		target_pcs,
+		assign_running,
+		running_sec,
+		assign_scheduled,
+		scheduled_sec,
+		idle_sec,
+		breakdown_sec,
+		availability_pct,
+		assign_performance,
+		calc_performance,
+		performance_pct,
+		quality_pct,
+		CASE
+			WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+			THEN (availability_pct * assign_performance * quality_pct) / 10000
+			ELSE oee_pct
+		END AS assign_oee,
+		oee_pct
+	FROM (
+	SELECT
+		period_dt,
+		good_pcs,
+		bad_pcs,
+		assign_target,
+		target_pcs,
+		assign_running,
+		running_sec,
+		assign_scheduled,
+		scheduled_sec,
+		idle_sec,
+		breakdown_sec,
+		availability_pct,
+		CASE
+			WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+			THEN (CAST((good_pcs + bad_pcs) AS FLOAT) / assign_target) * 100
+			ELSE calc_performance
+		END AS assign_performance,
+		calc_performance,
+		performance_pct,
+		quality_pct,
+		oee_pct
+	FROM (
+		SELECT
+			period_dt,
+			good_pcs,
+			bad_pcs,
+			CASE 
+				WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+				THEN good_pcs + bad_pcs
+				ELSE target_pcs
+			END AS assign_target,
+			target_pcs,
+			assign_running,
+			running_sec,
+			assign_scheduled,
+			scheduled_sec,
+			idle_sec,
+			breakdown_sec,
+			availability_pct,
+			calc_performance,
+			performance_pct,
+			quality_pct,
+			oee_pct
+		FROM (
+			SELECT
+				period_dt,
+				good_pcs,
+				bad_pcs,
+				target_pcs,
+				assign_running,
+				running_sec,
+				CASE 
+					WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+					THEN 3600 - assign_running - idle_sec - breakdown_sec
+					ELSE scheduled_sec
+				END AS assign_scheduled,
+				scheduled_sec,
+				idle_sec,
+				breakdown_sec,
+				availability_pct,
+				calc_performance,
+				performance_pct,
+				quality_pct,
+				oee_pct
+			FROM (
+				SELECT
+					period_dt,
+					good_pcs,
+					bad_pcs,
+					target_pcs,
+					CASE 
+						WHEN (calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1) 
+						THEN CASE
+									WHEN (good_pcs + bad_pcs) * 8.28 > 3600 
+									THEN 3600
+									ELSE (good_pcs + bad_pcs) * 8.28
+								END
+						ELSE running_sec
+					END AS assign_running,
+					running_sec,
+					scheduled_sec,
+					idle_sec,
+					breakdown_sec,
+					availability_pct,
+					calc_performance,
+					performance_pct,
+					quality_pct,
+					oee_pct
+				FROM (
+					SELECT
+						period_dt,
+						good_pcs,
+						bad_pcs,
+						(CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 8.28) AS target_pcs,
+						running_sec,
+						scheduled_sec,
+						idle_sec,
+						breakdown_sec,
+						availability_pct,
+						CASE WHEN target_pcs != 0 THEN ROUND((CAST(good_pcs + bad_pcs AS FLOAT) / (CAST(running_sec + idle_sec + breakdown_sec AS FLOAT) / 8.28)) * 100,2)
+						ELSE 0 
+						END AS calc_performance,
+						performance_pct,
+						quality_pct,
+						oee_pct
+					FROM silver.machine2_data
+					WHERE (YEAR(period_dt) IN (2025,2026))
+					)t
+				)t
+			)t
+		)t
+	)t
+)t
