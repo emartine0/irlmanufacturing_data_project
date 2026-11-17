@@ -142,7 +142,7 @@ BEGIN
 						running_sec,
 						CASE 
 							WHEN calc_performance NOT BETWEEN performance_pct - 1 AND performance_pct + 1 
-							THEN scheduled_sec - assign_running
+							THEN 3600 - assign_running - idle_sec - breakdown_sec
 							ELSE scheduled_sec
 						END AS assign_scheduled,
 						scheduled_sec,
