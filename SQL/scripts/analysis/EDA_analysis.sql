@@ -78,6 +78,8 @@ ORDER BY srtodr
 --------------------------- MAGNITUD ANALYSIS -----------------------------
 --=========================================================================
 
+/* The next queries can also be done for gold.machine2 data */
+	
 -- Compute the average pieces produced by month by year (per hour)
 
 SELECT
