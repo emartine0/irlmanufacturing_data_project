@@ -16,7 +16,7 @@ Highlights:
     3. Calculates valuable production KPI's
         -- Production quality percentage
         -- Machine availability percentage
-    4. Segments months and shifts in which:
+    4. Segments months in which:
      (a) the production of bad pieces is above the average and
      (b) also in which the breakdown time is above the average.
 =================================================================================
@@ -74,7 +74,7 @@ SELECT
     CASE WHEN (AVG(total_bad_pieces) OVER(PARTITION BY year)) - (AVG(total_bad_pieces) OVER(PARTITION BY month)) < 0
          THEN 'ABOVE the year average'
          ELSE 'BELOW or EQUAL the year average'
-    END AS bad_production_test,
+    END AS month_bad_production_test,
     average_production_quality,
     total_no_scheduled_time,
     total_breakdown_time,
@@ -83,6 +83,6 @@ SELECT
     CASE WHEN (AVG(total_breakdown_time) OVER(PARTITION BY year)) - (AVG(total_breakdown_time) OVER(PARTITION BY month)) < 0
          THEN 'ABOVE the year average'
          ELSE 'BELOW or EQUAL the year average'
-    END AS breakdown_machine_test,
-    average_machine_availability,
+    END AS month_breakdown_machine_test,
+    average_machine_availability
 FROM production_aggregation
