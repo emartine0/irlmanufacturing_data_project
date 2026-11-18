@@ -61,7 +61,7 @@ SELECT
 FROM base_query
 GROUP BY YEAR(production_datetime), MONTH(production_datetime), production_shift)
 ---------------------------------------------------------------------------------
-/*     CATEGORIZATION OF MONTHS AND SHIFTS: PRODUCTION AND BREAKDOWN TIME      */
+/*     CATEGORIZATION OF MONTHS: PRODUCTION AND BREAKDOWN TIME      */
 ---------------------------------------------------------------------------------
 SELECT
     year,
