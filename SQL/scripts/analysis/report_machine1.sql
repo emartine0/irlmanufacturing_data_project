@@ -16,8 +16,9 @@ Highlights:
     3. Calculates valuable production KPI's
         -- Production quality percentage
         -- Machine availability percentage
-    4. Segments days and months in which the production is below the respective average,
-    and also in which the breakdown time  is above the average.
+    4. Segments months and shifts in which:
+     (a) the production of bad pieces is above the average and
+     (b) also in which the breakdown time is above the average.
 =================================================================================
 */
 
@@ -60,17 +61,28 @@ SELECT
 FROM base_query
 GROUP BY YEAR(production_datetime), MONTH(production_datetime), production_shift)
 ---------------------------------------------------------------------------------
-/*      CATEGORIZATION OF MONTHS AND SHIFTS: PRODUCTION AND BREAKDOWN TIME       */
+/*     CATEGORIZATION OF MONTHS AND SHIFTS: PRODUCTION AND BREAKDOWN TIME      */
 ---------------------------------------------------------------------------------
 SELECT
     year,
     month,
     production_shift,
     total_pieces,
-    total_bad_pieces
+    total_bad_pieces,
+    AVG(total_bad_pieces) OVER(PARTITION BY year) AS bp_year_average,
+    AVG(total_bad_pieces) OVER(PARTITION BY month) AS bp_month_average,
+    CASE WHEN (AVG(total_bad_pieces) OVER(PARTITION BY year)) - (AVG(total_bad_pieces) OVER(PARTITION BY month)) < 0
+         THEN 'ABOVE the year average'
+         ELSE 'BELOW or EQUAL the year average'
+    END AS bad_production_test,
+    average_production_quality,
     total_no_scheduled_time,
     total_breakdown_time,
+    AVG(total_breakdown_time) OVER(PARTITION BY year) AS bd_year_average,
+    AVG(total_breakdown_time) OVER(PARTITION BY month) AS bd_month_average,
+    CASE WHEN (AVG(total_breakdown_time) OVER(PARTITION BY year)) - (AVG(total_breakdown_time) OVER(PARTITION BY month)) < 0
+         THEN 'ABOVE the year average'
+         ELSE 'BELOW or EQUAL the year average'
+    END AS breakdown_machine_test,
     average_machine_availability,
-    average_production_quality
 FROM production_aggregation
-
